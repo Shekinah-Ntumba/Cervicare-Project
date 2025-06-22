@@ -1,0 +1,36 @@
+# Web framework
+fastapi
+uvicorn[standard]
+
+# Authentication & Security
+python-jose[cryptography]
+passlib[bcrypt]
+
+# Database
+sqlalchemy
+
+# Data validation
+pydantic
+
+# File upload support
+python-multipart
+
+# Machine learning & preprocessing
+scikit-learn
+xgboost
+joblib
+pandas
+openpyxl       # Excel file support
+xlrd           # Old Excel (.xls) support
+
+# PDF generation
+reportlab
+
+# Imbalanced data support
+imbalanced-learn
+
+# PyTorch (only if model uses it)
+torch
+
+# Environment variable support
+python-dotenv
