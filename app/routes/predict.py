@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from app.auth.security import SECRET_KEY, ALGORITHM
@@ -21,32 +22,39 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 
 @router.get("/")
 def predict_from_uploaded_file(current_user: str = Depends(get_current_user)):
-    # Find user file
-    upload_dir = "uploads"
-    filename = None
-    for f in os.listdir(upload_dir):
-        if f.startswith(current_user):
-            filename = f
-            break
+    try:
+        # Find user file
+        upload_dir = "uploads"
+        filename = None
+        for f in os.listdir(upload_dir):
+            if f.startswith(current_user):
+                filename = f
+                break
 
-    if not filename:
-        raise HTTPException(status_code=404, detail="No uploaded file found for user.")
+        if not filename:
+            raise HTTPException(status_code=404, detail="No uploaded file found for user.")
 
-    file_path = os.path.join(upload_dir, filename)
+        file_path = os.path.join(upload_dir, filename)
 
-    # Predict
-    predictions = run_batch_prediction(file_path)
+        # Predict
+        predictions = run_batch_prediction(file_path)
 
-    # Generate PDF
-    pdf_path = generate_pdf_report(current_user, predictions)
+        # Generate PDF
+        pdf_path = generate_pdf_report(current_user, predictions)
 
-    return {
-        "message": "✅ Prediction complete.",
-        "pdf_report": pdf_path,
-        "links": {
-            "book_screening": "/screening/book",
-            "estimate_treatment": "/treatment/estimate",
-            "healthcare_institutions": "/resources/healthcare",
-            "financial_support": "/resources/financial"
+        return {
+            "message": "✅ Prediction complete.",
+            "pdf_report": pdf_path,
+            "links": {
+                "book_screening": "/screening/book",
+                "estimate_treatment": "/treatment/estimate",
+                "healthcare_institutions": "/resources/healthcare",
+                "financial_support": "/resources/financial"
+            }
         }
-    }
+
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": str(e)}
+        )

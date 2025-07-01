@@ -1,0 +1,6 @@
+﻿age,blood_pressure,hpv_result,screening_history,smoking_status
+34,120,positive,no,non-smoker
+45,135,negative,yes,smoker
+29,110,positive,no,non-smoker
+51,140,negative,yes,smoker
+38,125,positive,no,non-smoker

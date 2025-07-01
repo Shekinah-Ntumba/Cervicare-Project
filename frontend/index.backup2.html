@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CerviCare AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --primary-green: #22c55e;
+      --primary-dark: #16a34a;
+      --secondary-green: #dcfce7;
+      --accent-teal: #14b8a6;
+      --text-dark: #1f2937;
+      --text-light: #6b7280;
+      --bg-light: #f8fafc;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      transition: all 0.3s ease;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+      font-family: 'Inter', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* Enhanced Navbar */
+    .navbar {
+      background: linear-gradient(135deg, var(--primary-green), var(--accent-teal));
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(34, 197, 94, 0.15);
+      padding: 1rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .navbar .btn {
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(10px);
+      font-weight: 500;
+      padding: 0.5rem 1.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-color: #fff;
+    }
+
+    /* Enhanced Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #14b8a6 100%);
+      padding: 5rem 2rem;
+      border-radius: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--card-shadow-hover);
+      margin-bottom: 3rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .lead {
+      color: rgba(255,255,255,0.95);
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 2rem;
+    }
+
+    .hero .btn {
+      background: white;
+      color: var(--primary-green);
+      border: none;
+      padding: 1rem 2.5rem;
+      font-weight: 600;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .hero .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      color: var(--primary-dark);
+    }
+
+    /* Enhanced Cards */
+    .card {
+      border: none;
+      border-radius: 1.5rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.95);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-green), var(--accent-teal));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--primary-green), var(--accent-teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .feature-card h5 {
+      color: var(--text-dark);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card p {
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* Enhanced Forms */
+    .auth-card {
+      border-radius: 2rem;
+      padding: 3rem;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .form-control {
+      border: 2px solid rgba(34, 197, 94, 0.1);
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.8);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+      background: white;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--primary-green), var(--primary-dark));
+      border: none;
+      border-radius: 1rem;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+    }
+
+    .btn-outline-success {
+      border: 2px solid var(--primary-green);
+      color: var(--primary-green);
+      border-radius: 1rem;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-success:hover {
+      background: var(--primary-green);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+    }
+
+    /* Enhanced Prediction Tools */
+    .prediction-header {
+      background: linear-gradient(135deg, var(--primary-green), var(--accent-teal));
+      color: white;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .tool-card {
+      padding: 2.5rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tool-card h5 {
+      color: var(--text-dark);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tool-card .btn {
+      margin-top: auto;
+      border-radius: 1rem;
+      padding: 1rem;
+      font-weight: 600;
+    }
+
+    .btn-warning {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      border: none;
+      color: white;
+    }
+
+    .btn-warning:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Results Section */
+    .results-card {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(20, 184, 166, 0.05));
+      border: 1px solid rgba(34, 197, 94, 0.1);
+    }
+
+    .results-card a {
+      color: var(--primary-green);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .results-card a:hover {
+      color: var(--primary-dark);
+      transform: translateX(5px);
+    }
+
+    /* Section Titles */
+    .section-title {
+      color: var(--text-dark);
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-green), var(--accent-teal));
+      border-radius: 2px;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Responsive Improvements */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 3rem 1.5rem;
+        border-radius: 1.5rem;
+      }
+      
+      .auth-card {
+        padding: 2rem;
+      }
+      
+      .feature-card {
+        padding: 2rem 1rem;
+      }
+    }
+
+    /* Loading States */
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 2px solid var(--primary-green);
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark px-3">
+    <a class="navbar-brand fw-bold" href="#">
+      <i class="fas fa-heartbeat me-2"></i>CerviCare AI
+    </a>
+    <div class="ms-auto">
+      <button class="btn btn-outline-light me-2" onclick="showSection('login')">
+        <i class="fas fa-sign-in-alt me-1"></i>Login
+      </button>
+      <button class="btn btn-light text-success" onclick="showSection('register')">
+        <i class="fas fa-user-plus me-1"></i>Register
+      </button>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <!-- Enhanced Hero Section -->
+    <div class="hero text-center text-dark fade-in-up">
+      <div class="hero-content">
+        <h1 class="display-4">Empowering Cervical Health with AI</h1>
+        <p class="lead">Predict, Prevent, and Connect with Smart Cervical Cancer Risk Tools</p>
+        <button class="btn btn-lg mt-3" onclick="showSection('register')">
+          <i class="fas fa-rocket me-2"></i>Get Started
+        </button>
+      </div>
+    </div>
+
+    <!-- Enhanced Features Section -->
+    <div class="row text-center mt-5 fade-in-up">
+      <h3 class="section-title mb-4">What CerviCare AI Offers</h3>
+      <div class="col-md-4 mb-4">
+        <div class="card feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h5>AI Risk Prediction</h5>
+          <p>Advanced machine learning algorithms analyze your medical history to provide personalized cervical cancer risk assessments.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <h5>Smart Scheduling</h5>
+          <p>Intelligent screening recommendations based on Kenyan healthcare guidelines and WHO best practices.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-hospital"></i>
+          </div>
+          <h5>Real-Time Availability</h5>
+          <p>Live tracking of screening kits, clinic availability, and healthcare resources in your area.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Auth Forms -->
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 d-none fade-in-up" id="register-section">
+        <div class="card auth-card shadow-lg">
+          <h4 class="mb-4 text-center" style="color: var(--primary-green);">
+            <i class="fas fa-user-plus me-2"></i>Create Account
+          </h4>
+          <input class="form-control mb-3" id="reg-email" placeholder="Enter your email address" />
+          <input class="form-control mb-4" id="reg-password" type="password" placeholder="Create a secure password" />
+          <button class="btn btn-success w-100" onclick="register()">
+            <i class="fas fa-user-plus me-2"></i>Register
+          </button>
+          <p class="text-center mt-3 text-muted">
+            Already have an account? 
+            <a href="#" onclick="showSection('login')" class="text-decoration-none" style="color: var(--primary-green);">Sign in</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6 d-none fade-in-up" id="login-section">
+        <div class="card auth-card shadow-lg">
+          <h4 class="mb-4 text-center" style="color: var(--primary-green);">
+            <i class="fas fa-sign-in-alt me-2"></i>Welcome Back
+          </h4>
+          <input class="form-control mb-3" id="login-email" placeholder="Enter your email address" />
+          <input class="form-control mb-4" id="login-password" type="password" placeholder="Enter your password" />
+          <button class="btn btn-outline-success w-100" onclick="login()">
+            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+          </button>
+          <p class="text-center mt-3 text-muted">
+            Don't have an account? 
+            <a href="#" onclick="showSection('register')" class="text-decoration-none" style="color: var(--primary-green);">Register here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Prediction UI -->
+  <div class="container d-none fade-in-up" id="after-login">
+    <div class="prediction-header d-flex justify-content-between align-items-center">
+      <div>
+        <h4 class="mb-0">
+          <i class="fas fa-brain me-2"></i>AI Prediction Dashboard
+        </h4>
+        <p class="mb-0 opacity-75">Upload your data and get personalized insights</p>
+      </div>
+      <button class="btn btn-outline-light" onclick="logout()">
+        <i class="fas fa-sign-out-alt me-1"></i>Logout
+      </button>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <div class="card tool-card shadow-sm">
+          <h5>
+            <i class="fas fa-upload text-primary"></i>
+            Upload Medical Data
+          </h5>
+          <p class="text-muted mb-4">Upload your medical records or test results for AI analysis</p>
+          <input type="file" id="fileInput" class="form-control mb-4" accept=".pdf,.jpg,.png,.csv" />
+          <button class="btn btn-success" onclick="uploadFile()">
+            <i class="fas fa-cloud-upload-alt me-2"></i>Upload File
+          </button>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-4">
+        <div class="card tool-card shadow-sm">
+          <h5>
+            <i class="fas fa-brain text-warning"></i>
+            Get AI Prediction
+          </h5>
+          <p class="text-muted mb-4">Generate your personalized risk assessment and care recommendations</p>
+          <button class="btn btn-warning" onclick="predict()">
+            <i class="fas fa-magic me-2"></i>Predict & Download Report
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="links" class="card results-card shadow-sm p-4 d-none fade-in-up">
+      <h5 class="mb-4">
+        <i class="fas fa-chart-pie me-2" style="color: var(--primary-green);"></i>
+        Your Prediction Results
+      </h5>
+      <div id="results"></div>
+    </div>
+  </div>
+
+  <script>
+    let token = "";
+
+    // function showSection(section) {
+    //   const sections = ["register-section", "login-section"];
+    //   sections.forEach(id => {
+    //     const el = document.getElementById(id);
+    //     el.classList.add("d-none");
+    //     el.classList.remove("fade-in-up"); // Reset animation
+    //   });
+
+    //   const targetId = section + "-section";
+    //   const targetEl = document.getElementById(targetId);
+    //   if (targetEl) {
+    //     targetEl.classList.remove("d-none");
+
+    //     // Trigger reflow for animation to re-apply
+    //     void targetEl.offsetWidth;
+
+    //     targetEl.classList.add("fade-in-up");
+    //   }
+    // }
+
+    function showSection(section) {
+      // Hide all sections
+      document.getElementById("register-section").classList.add("d-none");
+      document.getElementById("login-section").classList.add("d-none");
+      
+      // Show requested section with animation
+      if (section === "register") {
+        document.getElementById("register-section").classList.remove("d-none");
+        document.getElementById("register-section").classList.add("fade-in-up");
+      } else if (section === "login") {
+        document.getElementById("login-section").classList.remove("d-none");
+        document.getElementById("login-section").classList.add("fade-in-up");
+      }
+    }
+
+    function addLoadingState(element) {
+      element.classList.add("loading");
+      element.style.position = "relative";
+    }
+
+    function removeLoadingState(element) {
+      element.classList.remove("loading");
+    }
+
+    function register() {
+      const email = document.getElementById("reg-email").value;
+      const password = document.getElementById("reg-password").value;
+      
+      if (!email || !password) {
+        return alert("Please fill out all registration fields.");
+      }
+
+      const registerBtn = document.querySelector('#register-section .btn-success');
+      addLoadingState(registerBtn);
+
+      fetch("/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        removeLoadingState(registerBtn);
+        if (data.id) {
+          alert("✅ Registration successful! Please log in to continue.");
+          showSection("login");
+        } else {
+          alert("❌ Registration failed: " + (data.detail || "Unknown error occurred."));
+        }
+      })
+      .catch(err => {
+        removeLoadingState(registerBtn);
+        alert("❌ Registration error: " + err.message);
+      });
+    }
+
+    function login() {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+      
+      if (!email || !password) {
+        return alert("Please fill out all login fields.");
+      }
+
+      const loginBtn = document.querySelector('#login-section .btn-outline-success');
+      addLoadingState(loginBtn);
+
+      fetch("/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      })
+      .then(async res => {
+        const text = await res.text();
+        try {
+          const data = JSON.parse(text);
+          removeLoadingState(loginBtn);
+          
+          if (!data.access_token) {
+            throw new Error("No access token received.");
+          }
+          
+          token = data.access_token;
+          
+          // Hide auth sections
+          document.getElementById("register-section").classList.add("d-none");
+          document.getElementById("login-section").classList.add("d-none");
+          
+          // Show dashboard
+          document.getElementById("after-login").classList.remove("d-none");
+          document.getElementById("after-login").classList.add("fade-in-up");
+          
+          alert("✅ Welcome to CerviCare AI! You're now logged in.");
+        } catch (err) {
+          alert("❌ Login failed. Server response:\n" + text);
+        }
+      })
+      .catch(err => {
+        removeLoadingState(loginBtn);
+        alert("❌ Login error: " + err.message);
+      });
+    }
+
+    function uploadFile() {
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) {
+        return alert("Please select a file to upload.");
+      }
+
+      const uploadBtn = document.querySelector('.tool-card .btn-success');
+      addLoadingState(uploadBtn);
+
+      const formData = new FormData();
+      formData.append("file", file);
+      
+      fetch("/upload/", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        removeLoadingState(uploadBtn);
+        if (data.detail) {
+          alert("❌ Upload error: " + data.detail);
+        } else {
+          alert("✅ File uploaded successfully! You can now generate your prediction.");
+        }
+      })
+      .catch(err => {
+        removeLoadingState(uploadBtn);
+        alert("❌ Upload error: " + err.message);
+      });
+    }
+
+    function predict() {
+      const predictBtn = document.querySelector('.tool-card .btn-warning');
+      addLoadingState(predictBtn);
+
+      fetch("/predict/", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => res.json())
+      .then(data => {
+        removeLoadingState(predictBtn);
+        
+        if (!data.pdf_report) {
+          return alert("❌ Prediction failed. Please try again.");
+        }
+        
+        const results = document.getElementById("results");
+        results.innerHTML = `
+          <div class="mb-4">
+            <h6 class="text-success mb-3">
+              <i class="fas fa-file-pdf me-2"></i>Your Personalized Report
+            </h6>
+            <p>
+              <a href="${data.pdf_report}" target="_blank" class="btn btn-outline-success">
+                <i class="fas fa-download me-2"></i>Download PDF Report
+              </a>
+            </p>
+          </div>
+          
+          <div>
+            <h6 class="text-primary mb-3">
+              <i class="fas fa-external-link-alt me-2"></i>Next Steps & Resources
+            </h6>
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <a href="${data.links.book_screening}" target="_blank" class="d-block p-3 border rounded text-decoration-none">
+                  <i class="fas fa-calendar-plus me-2 text-success"></i>Book Screening Appointment
+                </a>
+              </div>
+              <div class="col-md-6 mb-2">
+                <a href="${data.links.estimate_treatment}" target="_blank" class="d-block p-3 border rounded text-decoration-none">
+                  <i class="fas fa-calculator me-2 text-info"></i>Estimate Treatment Costs
+                </a>
+              </div>
+              <div class="col-md-6 mb-2">
+                <a href="${data.links.healthcare_institutions}" target="_blank" class="d-block p-3 border rounded text-decoration-none">
+                  <i class="fas fa-hospital me-2 text-primary"></i>Find Healthcare Facilities
+                </a>
+              </div>
+              <div class="col-md-6 mb-2">
+                <a href="${data.links.financial_support}" target="_blank" class="d-block p-3 border rounded text-decoration-none">
+                  <i class="fas fa-hand-holding-heart me-2 text-warning"></i>Financial Support Options
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        document.getElementById("links").classList.remove("d-none");
+        document.getElementById("links").classList.add("fade-in-up");
+      })
+      .catch(err => {
+        removeLoadingState(predictBtn);
+        alert("❌ Prediction error: " + err.message);
+      });
+    }
+
+    function logout() {
+      token = "";
+      
+      // Hide dashboard
+      document.getElementById("after-login").classList.add("d-none");
+      document.getElementById("links").classList.add("d-none");
+      
+      // Clear forms
+      document.getElementById("reg-email").value = "";
+      document.getElementById("reg-password").value = "";
+      document.getElementById("login-email").value = "";
+      document.getElementById("login-password").value = "";
+      document.getElementById("fileInput").value = "";
+      
+      alert("🚪 You've been logged out successfully.");
+    }
+
+    // Add smooth scrolling for better UX
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add fade-in animation to main content
+      document.querySelector('.container').classList.add('fade-in-up');
+    });
+  </script>
+
+</body>
+</html>

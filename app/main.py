@@ -3,6 +3,7 @@ from app.routes import  predict, upload
 from app.auth import routes as auth_routes
 from dotenv import load_dotenv
 import os
+import uvicorn
 
 load_dotenv()
 
@@ -24,3 +25,5 @@ import os
 
 app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
 
+if __name__ == "__main__":
+    uvicorn.run("app.main:app", host="127.0.0.1", port=5000, reload=True)

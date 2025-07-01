@@ -26,14 +26,22 @@ def register(user: user_schema.UserCreate, db: Session = Depends(get_db)):
     return user_schema.UserOut(id=new_user.id, email=new_user.email)  # ✅ FIXED LINE
 
 
-@router.post("/login")
-def login(user: user_schema.UserLogin, db: Session= Depends(get_db)):
-    db_user = db.query(models.User).filter(models.User.email == user.email).first()
-    if not db_user or not verify_password( user.password, db_user.hashed_password):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-        access_token = create_access_token(data={"sub": db_user.email})
-        return {"access_token": access_token, "token_type": "bearer"}
+# @router.post("/login")
+# def login(user: user_schema.UserLogin, db: Session= Depends(get_db)):
+#     db_user = db.query(models.User).filter(models.User.email == user.email).first()
+#     if not db_user or not verify_password( user.password, db_user.hashed_password):
+#         raise HTTPException(status_code=401, detail="Invalid credentials")
+#         access_token = create_access_token(data={"sub": db_user.email})
+#         return {"access_token": access_token, "token_type": "bearer"}
 
+@router.post("/login")
+def login(user: user_schema.UserLogin, db: Session = Depends(get_db)):
+    db_user = db.query(models.User).filter(models.User.email == user.email).first()
+    if not db_user or not verify_password(user.password, db_user.hashed_password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    access_token = create_access_token(data={"sub": db_user.email})
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 
